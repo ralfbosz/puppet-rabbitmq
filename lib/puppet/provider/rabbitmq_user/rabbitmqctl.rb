@@ -16,7 +16,11 @@ Puppet::Type.type(:rabbitmq_user).provide(
 
   def self.instances
     user_list = run_with_retries do
-      rabbitmqctl('-q', 'list_users')
+      if Facter.value('rabbitmq_version') <= '3.7.8'
+        rabbitmqctl('-q', 'list_users')
+      else
+        rabbitmqctl('--no-table-headers', '-q', 'list_users')
+      end
     end
 
     user_list.split(%r{\n}).map do |line|

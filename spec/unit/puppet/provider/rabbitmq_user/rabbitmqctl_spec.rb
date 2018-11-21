@@ -14,7 +14,7 @@ describe provider_class do
   let(:instance) { provider.class.instances.first }
 
   before do
-    provider.class.stubs(:rabbitmqctl).with('-q', 'list_users').returns(
+    provider.class.stubs(:rabbitmqctl).with('--no-table-headers', '-q', 'list_users').returns(
       "rmq_x [disk, storage]\nrmq_y [network, cpu, administrator]\nrmq_z []\n"
     )
   end
